@@ -1,5 +1,6 @@
-import express, { Response, Request } from "express"
+import express, { Response, Request, NextFunction } from "express"
 import * as yup from "yup"
+import handlerException from "./middlewares/handler-exception";
 
 const app = express();
 
@@ -11,7 +12,7 @@ app.get("/api/users/signout", (request: Request, response: Response) => {
     })
 })
 
-app.post("/api/users/signup", async (request: Request, response: Response) => {
+app.post("/api/users/signup", async (request: Request, response: Response, next: NextFunction) => {
     try {
         let schema = yup.object().shape({
             name: yup.string().min(1).required(),
@@ -25,22 +26,12 @@ app.post("/api/users/signup", async (request: Request, response: Response) => {
             message: "Me here 2 "
         })
     } catch(error: any) {
-        if (error.name === 'ValidationError') {
-            return response.status(400).json({ 
-                statusCode: 400,
-                error: error.errors 
-            })
-        }
-
-        response.status(500).json({ 
-            statusCode: 500,
-            error: "Internal server error"
-        })
+        next(error);
     }
     
 })
 
-app.post("/api/users/signin", async (request: Request, response: Response) => {
+app.post("/api/users/signin", async (request: Request, response: Response, next: NextFunction) => {
     try {
         let schema = yup.object().shape({
             email: yup.string().email().required(),
@@ -53,19 +44,11 @@ app.post("/api/users/signin", async (request: Request, response: Response) => {
             message: "Route signin"
         })
     } catch(error: any) {
-        if (error.name === 'ValidationError') {
-            return response.status(400).json({ 
-                statusCode: 400,
-                error: error.errors 
-            })
-        }
-
-        response.status(500).json({ 
-            statusCode: 500,
-            error: "Internal server error"
-        })
+       next(error)
     }
 })
+
+app.use(handlerException)
 
 app.listen(3000, () => {
     console.log("Server is running port 3000")
