@@ -6,7 +6,10 @@ export default class UserEndpoint {
 
     constructor(
         private readonly userService: UserService
-    ) {}
+    ) {
+        this.register = this.register.bind(this)
+        this.authenticate = this.authenticate.bind(this)
+    }
 
     async register(request: Request, response: Response, next: NextFunction) {
         try {

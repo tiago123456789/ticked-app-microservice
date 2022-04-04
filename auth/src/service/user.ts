@@ -24,7 +24,7 @@ export default class UserService {
         return this.userRepository.create(user);
     }
 
-    async authenticate(credential: Credential): string {
+    async authenticate(credential: Credential): Promise<string> {
         const register = await this.userRepository.findByEmail(credential.email);
         if (!register) {
             throw new InvalidDataException("Credentials invalid!")
