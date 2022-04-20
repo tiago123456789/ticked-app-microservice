@@ -12,6 +12,8 @@ export default (app: Express) => {
         })
     })
 
+    app.get("/api/users/me", userEndpointFactory.currentUser)
+
     app.post("/api/users/signup", userEndpointFactory.register)
 
     app.post("/api/users/signin", userEndpointFactory.authenticate)

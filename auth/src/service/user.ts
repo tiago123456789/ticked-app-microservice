@@ -14,6 +14,10 @@ export default class UserService {
         private readonly userRepository: UserRepository
     ) {}
 
+    findById(id: string) {
+        return this.userRepository.findById(id);
+    }
+
     async create(user: User) {
         const register = await this.userRepository.findByEmail(user.email);
         if (register) {
@@ -37,9 +41,9 @@ export default class UserService {
 
         const accessToken = this.token.get({
             // @ts-ignore
-            id: user._id,
+            id: register._id,
             // @ts-ignore
-            email: user.email
+            email: register.email
         })
 
         return accessToken
