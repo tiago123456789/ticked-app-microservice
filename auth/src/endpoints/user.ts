@@ -14,6 +14,16 @@ export default class UserEndpoint {
         this.register = this.register.bind(this);   
         this.authenticate = this.authenticate.bind(this);
         this.currentUser = this.currentUser.bind(this);
+        this.logout = this.logout.bind(this);
+    }
+
+    logout(request: Request, response: Response, next: NextFunction) {
+        try {
+            response.clearCookie("accessToken")
+            response.sendStatus(200);
+        } catch(error) {
+            next(error);
+        }
     }
 
     async currentUser(request: Request, response: Response, next: NextFunction) {
