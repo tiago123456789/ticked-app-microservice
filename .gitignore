@@ -1,3 +1,4 @@
 auth/build/
 auth/node_modules/
 auth/.env
+auth/.env.testing
