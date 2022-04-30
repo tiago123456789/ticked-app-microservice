@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-dpl 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth 
+  template:
+    metadata:
+      labels: 
+        app: auth
+    spec:
+      containers:
+        - name: auth
+          image: tiagorosadacosta123456/ticked-auth
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              valueFrom:
+                secretKeyRef:
+                  key: node_env
+                  name: auth-secret
+                
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  key: db_url
+                  name: auth-secret
+
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwt_secret
+                  name: auth-secret
+            
+            - name: JWT_EXPIRATION
+              valueFrom:
+                secretKeyRef:
+                  key: jwt_expiration
+                  name: auth-secret
+                
