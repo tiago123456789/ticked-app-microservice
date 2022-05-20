@@ -29,10 +29,7 @@ export default class UserEndpoint {
     async currentUser(request: Request, response: Response, next: NextFunction) {
         try {
             // @ts-ignore
-            const accessToken = this.cookieUtil.getValueByKey("accessToken", request.headers.cookie)
-            // @ts-ignore
-            const payload = this.tokenUtil.decode(accessToken);
-            const id = payload["id"]
+            const id = request.userId
             const user = await this.userService.findById(id);
             response.status(200).json(user)
         } catch(error) {
@@ -65,8 +62,9 @@ export default class UserEndpoint {
 
             await schema.validate(request.body);
             const accessToken = await this.userService.authenticate(request.body);
-            response.cookie('accessToken', accessToken)
-            response.json({ accessToken });
+            response.cookie('accessToken', accessToken, { 
+                path: "/", expires: new Date(Date.now() + 9000000000000), httpOnly: false
+            }).json({ accessToken })
         } catch(error) {
             next(error);
         }

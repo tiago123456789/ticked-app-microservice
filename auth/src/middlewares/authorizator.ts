@@ -24,13 +24,15 @@ export default (request: Request, response: Response, next: NextFunction) => {
 
     try {
         // @ts-ignore
-        const isValid = tokenUtils.decode(accessToken)
-        if (!isValid) {
+        const payload = tokenUtils.decode(accessToken)
+        if (!payload) {
             return response.status(403).json({
                 statusCode: 403,
                 error: "Your accessToken informated is invalid or expired"
             })
         }
+        // @ts-ignore
+        request.userId = payload.id
         return next();
     } catch(error) {
         response.status(403).json({
