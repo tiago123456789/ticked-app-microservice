@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken"
 
-export default class TokenUtils {
+export class TokenUtils {
 
     get(payload: { [key: string]: any }) {
         // @ts-ignore

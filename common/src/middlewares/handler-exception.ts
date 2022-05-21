@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
 
-export default (error: Error, request: Request, response: Response, next: NextFunction) => {
+export const handleException = (error: Error, request: Request, response: Response, next: NextFunction) => {
     if (error.name === 'ValidationError') {
         return response.status(400).json({ 
             statusCode: 400,

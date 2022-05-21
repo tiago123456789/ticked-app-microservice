@@ -1,6 +1,6 @@
 import * as cookie from "cookie"
 
-export default class CookieUtils {
+export class CookieUtils {
 
 
     getValueByKey(key: string, cookies: string): string | null {

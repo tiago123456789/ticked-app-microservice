@@ -1,6 +1,6 @@
 
 
-export default class InvalidDataException extends Error {
+export class InvalidDataException extends Error {
 
     constructor(message: string) {
         super(message);

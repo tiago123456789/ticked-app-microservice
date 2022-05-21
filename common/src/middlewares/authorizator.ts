@@ -6,7 +6,7 @@ import TokenUtils from "../utils/token"
 const cookieUtils = new CookieUtils();
 const tokenUtils = new TokenUtils();
 
-export default (request: Request, response: Response, next: NextFunction) => {
+export const authorizator = (request: Request, response: Response, next: NextFunction) => {
     // @ts-ignore
     let accessToken: string | null = cookieUtils.getValueByKey("accessToken", request.headers.cookie)
     // @ts-ignore

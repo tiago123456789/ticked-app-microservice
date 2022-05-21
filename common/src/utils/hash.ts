@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs"
 
-export default class HashUtils {
+export class HashUtils {
 
     async getHash(value: string) {
         const salt = await bcrypt.genSalt(10)
