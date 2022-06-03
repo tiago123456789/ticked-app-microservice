@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express"
-import CookieUtils from "../utils/cookie"
-import TokenUtils from "../utils/token"
+import { CookieUtils } from "../utils/cookie"
+import { TokenUtils } from "../utils/token"
 
 
 const cookieUtils = new CookieUtils();

@@ -17,6 +17,15 @@ export const handleException = (error: Error, request: Request, response: Respon
         })
     }
 
+
+    if (error.name === 'NotFoundException') {
+        return response.status(404).json({ 
+            statusCode: 404,
+            // @ts-ignore
+            error: [error.message]
+        })
+    }
+
     console.log(error)
     response.status(500).json({ 
         statusCode: 500,

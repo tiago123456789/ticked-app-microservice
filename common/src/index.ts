@@ -1,4 +1,5 @@
 export * from "./exceptions/invalid-data-exception"
+export * from "./exceptions/not-found-exception"
 export * from "./middlewares/authorizator"
 export * from "./middlewares/handler-exception"
 export * from "./utils/cookie"

@@ -6,4 +6,8 @@ client/node_modules/
 client/.next/
 common/node_modules/
 common/build/
+ticket/.env
+ticket/node_modules/
+ticket/build/
+
 

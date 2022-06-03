@@ -1,7 +1,6 @@
 import Credential from "../dtos/credential";
 import User from "../dtos/user";
-import InvalidDataException from "../exceptions/invalid-data-exception";
-import user from "../models/user";
+import { InvalidDataException } from "@ticket-app/common";
 import UserRepository from "../repositories/user";
 import HashUtils from "../utils/hash"
 import TokenUtils from "../utils/token";
