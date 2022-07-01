@@ -1,6 +1,6 @@
 {
   "name": "@ticket-app/common",
-  "version": "1.3.7",
+  "version": "1.4.7",
   "description": "library to share code between applications and prevent duplicate code",
   "main": "build/index.js",
   "types": "build/index.d.js",
@@ -26,6 +26,7 @@
     "bcryptjs": "^2.4.3",
     "cookie": "^0.5.0",
     "express": "^4.18.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "node-nats-streaming": "^0.3.2"
   }
 }

@@ -24,7 +24,8 @@ export default class TicketService {
         return this.ticketRepository.create(ticket);
     }
 
-    update(id: string, user: TicketDto) {
+    async update(id: string, user: TicketDto) {
+        await this.findById(id);
         return this.ticketRepository.update(id, user);
     }
 
