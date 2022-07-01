@@ -1,6 +1,4 @@
-enum Events {
+export enum Events {
     TICKET_CREATED = "ticket:created",
     TICKET_UPDATED = "ticket:updated"
 }
-
-export default Events;

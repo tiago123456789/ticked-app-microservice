@@ -1,6 +1,6 @@
 {
   "name": "@ticket-app/common",
-  "version": "1.4.7",
+  "version": "1.5.10",
   "description": "library to share code between applications and prevent duplicate code",
   "main": "build/index.js",
   "types": "build/index.d.js",

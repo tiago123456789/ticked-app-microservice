@@ -2,6 +2,12 @@ version: "3"
 
 services:
 
+  nats:
+    image: nats-streaming:0.17.0
+    command: -hbf 2 -hbt 5s -hbi 5s -p 4222 -m 8222 -SD -cid ticketing
+    ports: 
+      - 4222:4222
+
   database: 
     image: mongo
     ports:

@@ -1,4 +1,2 @@
 
-interface Event {}
-
-export default Event;
+export interface Event {}

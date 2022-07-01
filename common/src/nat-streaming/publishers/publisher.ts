@@ -1,8 +1,8 @@
-import Event from "../events/event";
+import { Event } from "../events/event";
 import { Stan } from "node-nats-streaming"
-import Events from "../events/events";
+import { Events } from "../events/events";
 
-abstract class Publisher<T extends Event> {
+export abstract class Publisher<T extends Event> {
 
     private client: Stan;
 
@@ -20,5 +20,3 @@ abstract class Publisher<T extends Event> {
         })
     }
 }
-
-export default Publisher;

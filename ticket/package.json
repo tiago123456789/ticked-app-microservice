@@ -7,13 +7,14 @@
     "test": "NODE_ENV=testing jest",
     "build": "tsc",
     "start": "npm run build && pm2 start ./build/src/index.js",
+    "sub:dev": "node_modules/.bin/nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/teste.ts",
     "start:dev": "node_modules/.bin/nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ticket-app/common": "^1.3.7",
+    "@ticket-app/common": "^1.5.10",
     "@types/jsonwebtoken": "^8.5.8",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.5.0",
@@ -22,6 +23,7 @@
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.9",
+    "node-nats-streaming": "^0.3.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {
