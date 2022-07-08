@@ -1,11 +1,15 @@
 import TicketDto from "../dtos/ticket";
 import TicketRepository from "../repositories/ticket";
-import { NotFoundException } from "@ticket-app/common"
+import { NotFoundException, TicketCreated, TicketUpdated } from "@ticket-app/common"
+
+import { Publisher } from "@ticket-app/common"
 
 export default class TicketService {
 
     constructor(
-        private readonly ticketRepository: TicketRepository
+        private readonly ticketRepository: TicketRepository,
+        private readonly ticketCreatedPublisher: Publisher<TicketCreated>,
+        private readonly ticketUpdatedPublisher: Publisher<TicketUpdated>
     ) {}
 
     async findById(id: string) {
@@ -20,13 +24,28 @@ export default class TicketService {
         return this.ticketRepository.findAll()
     }
 
-    create(ticket: TicketDto) {
-        return this.ticketRepository.create(ticket);
+    async create(ticket: TicketDto) {
+        const ticketCreated = await this.ticketRepository.create(ticket);
+        await this.ticketCreatedPublisher.publish({
+            title: ticket.title,
+            price: ticket.price,
+            userId: ticket.userId,
+            id: ticketCreated[0]._id
+        })
+        return ticketCreated;
     }
 
-    async update(id: string, user: TicketDto) {
+    async update(id: string, ticket: TicketDto) {
         await this.findById(id);
-        return this.ticketRepository.update(id, user);
+
+        const ticketUpdated = await this.ticketRepository.update(id, ticket);
+        await this.ticketUpdatedPublisher.publish({
+            title: ticket.title,
+            price: ticket.price,
+            userId: ticket.userId,
+            id: id
+        })
+        return ticketUpdated
     }
 
 }

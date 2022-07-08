@@ -1,7 +1,7 @@
 import { Event } from "./event";
 
 export interface TicketUpdated extends Event {
-    id: string,
+    id?: string,
     title: string,
     price: number,
     userId: string
