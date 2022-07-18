@@ -15,7 +15,7 @@ export * from "./nat-streaming/publishers/ticket-updated-publisher"
 export * from "./nat-streaming/listeners/listerner"
 export * from "./nat-streaming/listeners/ticket-created-listener"
 export * from "./nat-streaming/listeners/ticket-updated-listener"
-
+export * from "./types/order-status"
 
 
 

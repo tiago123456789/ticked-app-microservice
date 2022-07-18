@@ -10,4 +10,7 @@ ticket/.env
 ticket/node_modules/
 ticket/build/
 
+order/.env
+order/node_modules
+
 
