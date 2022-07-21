@@ -1,7 +1,9 @@
 import Ticket from "../models/ticket"
 import TicketDto from "../dtos/ticket";
+import mongoose from "mongoose";
 
-export default class TicketRepository {
+export default abstract class Repository {
+
 
     findAll() {
         return Ticket.find({ })

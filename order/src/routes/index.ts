@@ -12,10 +12,13 @@ export default (app: Express) => {
     // POST /api/orders -> create one order
     // DELETE /api/orders -> this route not delete register, only update order status for cancelled
 
-    app.get("/api/tickets", authorizator, ticketEndpointFactory.findAll)
-    app.get("/api/tickets/:id", authorizator, ticketEndpointFactory.findById)
-    app.post("/api/tickets", authorizator, ticketEndpointFactory.create)
-    app.put("/api/tickets/:id", authorizator, ticketEndpointFactory.update)
+    app.get("/api/orders", authorizator, () => {
+        
+    })
+    // app.get("/api/tickets", authorizator, ticketEndpointFactory.findAll)
+    // app.get("/api/tickets/:id", authorizator, ticketEndpointFactory.findById)
+    // app.post("/api/tickets", authorizator, ticketEndpointFactory.create)
+    // app.put("/api/tickets/:id", authorizator, ticketEndpointFactory.update)
 
     app.use(handleException)
    

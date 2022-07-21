@@ -1,5 +1,9 @@
 
-class Order {
+class OrderService {
+
+    findAllByUserId(userId: string) {
+
+    }
 
     create() {
         // Find the ticket the user is trying to order in the database
@@ -10,4 +14,4 @@ class Order {
     }
 }
 
-export default Order;
+export default OrderService;

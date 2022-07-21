@@ -1,16 +1,15 @@
 import natsClient from "../configs/nats-client"
-import { TicketUpdatedListener, TicketCreated, TicketCreatedListener, TicketUpdated } from "@ticket-app/common"
+import { TicketUpdatedListener, TicketCreatedListener, TicketUpdated } from "@ticket-app/common"
+import { TicketServiceFactory } from "../factories/ticket-service-factory"
+
+const ticketService = new TicketServiceFactory().make({})
 
 new TicketCreatedListener(natsClient.getClient(), "ticket_created_queue")
-    .setHandleCallback((data: TicketCreated) => {
-        console.log(data)
-        console.log("!!!!!!!!!!! CREATE !!!!!!!!!!!")
-    })
+    .setHandleCallback(ticketService.create)
     .listen()
 
 new TicketUpdatedListener(natsClient.getClient(), "ticket_updated_queue")
     .setHandleCallback((data: TicketUpdated) => {
-        console.log(data)
-        console.log("!!!!!!!!!!! UPDATE !!!!!!!!!!!!")
+        ticketService.update(data.id, data)
     })
     .listen()
