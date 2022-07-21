@@ -5,6 +5,8 @@ import "./nats-client"
 import { handleException } from "@ticket-app/common";
 import routesApp from "../routes/index"
 import cors from "cors"
+import "../handlers/index"
+
 const app = express();
 
 app.use(express.json())

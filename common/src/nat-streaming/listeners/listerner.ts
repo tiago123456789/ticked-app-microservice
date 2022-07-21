@@ -14,30 +14,40 @@ export abstract class Listener<T extends Event> {
 
     private client: Stan;
 
+    protected handleCallback: CallableFunction | undefined;
+
     constructor(client: Stan, queueGroupName: string | null) {
         this.client = client;
         this.queueGroupName = queueGroupName;
     }
 
-    public listen() {
-        const options = this.client.subscriptionOptions()
-            .setManualAckMode(true)
-            .setAckWait(this.ackWait)
-
-        this.subscribe = this.client.subscribe(this.subject, options)
-
-        if (this.queueGroupName) {
-            this.subscribe = this.client.subscribe(
-                this.subject, this.queueGroupName, options
-            )
-        }
-
-        this.subscribe.on("message", async (message: Message) => {
-            const data: T = JSON.parse(message.getData().toString());
-            await this.handle(data);
-            message.ack()
-        })
+    public setHandleCallback(callback: CallableFunction) {
+        this.handleCallback = callback;
+        return this;
     }
 
-    protected abstract handle(data: T): void;
+    public listen() {
+        this.client.on("connect", async () => {
+            const options = this.client.subscriptionOptions()
+                .setManualAckMode(true)
+                .setAckWait(this.ackWait)
+
+            this.subscribe = this.client.subscribe(this.subject, options)
+
+            if (this.queueGroupName) {
+                this.subscribe = this.client.subscribe(
+                    this.subject, this.queueGroupName, options
+                )
+            }
+
+            this.subscribe.on("message", async (message: Message) => {
+                const data: T = JSON.parse(message.getData().toString());
+                await this.handle(data);
+                message.ack()
+            })
+        })
+
+    }
+
+    protected abstract handle(data: T): Promise<any>;
 }
