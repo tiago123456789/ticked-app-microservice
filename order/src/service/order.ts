@@ -1,13 +1,45 @@
+import TicketRepository from "../repositories/ticket";
+import OrderRepository from "../repositories/order"
+import OrderDto from "../dtos/order"
+import { BusinessLogicException, NotFoundException, OrderStatus } from "@ticket-app/common/build";
 
 class OrderService {
 
-    findAllByUserId(userId: string) {
+    private ticketRepository: TicketRepository;
+    private orderRepository: OrderRepository;
 
+    constructor(
+        ticketRepository = new TicketRepository(),
+        orderRepository = new OrderRepository()
+    ) {
+        this.ticketRepository = ticketRepository;
+        this.orderRepository = orderRepository;
     }
 
-    create() {
-        // Find the ticket the user is trying to order in the database
-        // Make sure that this ticket is not already reserved
+
+    async create(order: OrderDto) {
+        const ticket = await this.ticketRepository.findById(order.ticket)
+        if (!ticket) {
+            throw new NotFoundException("Ticket not found")
+        }
+
+        const orderToTicket = await this.orderRepository.findByTicketIdAndStatus(
+            order.ticket, OrderStatus.CREATED
+        )
+
+        if (orderToTicket) {
+            throw new BusinessLogicException("You can't make order because ticket already reserved")
+        }
+
+        const currentDate = new Date();
+        currentDate.setMinutes(currentDate.getMinutes() + 15)
+        order.expiresAt = currentDate;
+
+        await this.orderRepository.create(order)
+
+
+        // OK -> Find the ticket the user is trying to order in the database
+        // Ok -> Make sure that this ticket is not already reserved
         // Calculate an expiration date for this order
         // Build the order and save it to the database
         // Publish an event saying that an order was created

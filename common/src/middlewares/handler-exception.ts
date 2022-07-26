@@ -26,6 +26,14 @@ export const handleException = (error: Error, request: Request, response: Respon
         })
     }
 
+    if (error.name === "BusinessLogicException") {
+        return response.status(409).json({ 
+            statusCode: 409,
+            // @ts-ignore
+            error: [error.message]
+        })
+    }
+
     console.log(error)
     response.status(500).json({ 
         statusCode: 500,

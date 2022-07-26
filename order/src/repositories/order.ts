@@ -1,25 +1,28 @@
-import Ticket from "../models/ticket"
-import TicketDto from "../dtos/ticket";
-import mongoose from "mongoose";
+import Order from "../models/order"
+import OrderDto from "../dtos/order";
 
-export default abstract class Repository {
+export default class OrderRepository {
 
 
     findAll() {
-        return Ticket.find({ })
+        return Order.find({ })
+    }
+
+    findByTicketIdAndStatus(ticketId: string, status: string) {
+        return Order.findOne({ ticket: ticketId, status })
     }
 
     findById(id: string | undefined) {
-        return Ticket.findById(id, { __v: 0 })
+        return Order.findById(id, { __v: 0 })
     }
 
-    create(ticket: TicketDto) {
-        return Ticket.insertMany([
-            ticket
+    create(order: OrderDto) {
+        return Order.insertMany([
+            order
         ])
     }
 
-    update(id: string | undefined, user: TicketDto) {
-        return Ticket.updateOne({ _id: id }, { $set: user })
+    update(id: string | undefined, order: OrderDto) {
+        return Order.updateOne({ _id: id }, { $set: order })
     }
 }
