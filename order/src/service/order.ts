@@ -34,14 +34,13 @@ class OrderService {
         const currentDate = new Date();
         currentDate.setMinutes(currentDate.getMinutes() + 15)
         order.expiresAt = currentDate;
-
+        order.status = OrderStatus.CREATED;
+        
         await this.orderRepository.create(order)
-
-
         // OK -> Find the ticket the user is trying to order in the database
         // Ok -> Make sure that this ticket is not already reserved
-        // Calculate an expiration date for this order
-        // Build the order and save it to the database
+        // OK -> Calculate an expiration date for this order
+        // OK -> Build the order and save it to the database
         // Publish an event saying that an order was created
     }
 }
