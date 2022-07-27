@@ -7,8 +7,9 @@ export default class TicketRepository {
         return Ticket.find({ })
     }
 
-    findById(id: string | undefined) {
-        return Ticket.findById(id, { __v: 0 })
+    async findById(id: string | undefined) {
+        const registers: any = await Ticket.find({ id: id })
+        return registers[0] || null;
     }
 
     create(ticket: TicketDto) {

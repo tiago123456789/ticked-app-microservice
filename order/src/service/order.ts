@@ -2,6 +2,7 @@ import TicketRepository from "../repositories/ticket";
 import OrderRepository from "../repositories/order"
 import OrderDto from "../dtos/order"
 import { BusinessLogicException, NotFoundException, OrderStatus } from "@ticket-app/common/build";
+import mongoose from "mongoose";
 
 class OrderService {
 
@@ -18,6 +19,9 @@ class OrderService {
 
 
     async create(order: OrderDto) {
+        if (!mongoose.isValidObjectId(order.ticket)) {
+            throw new NotFoundException("Ticket not found")
+        }
         const ticket = await this.ticketRepository.findById(order.ticket)
         if (!ticket) {
             throw new NotFoundException("Ticket not found")
@@ -37,11 +41,6 @@ class OrderService {
         order.status = OrderStatus.CREATED;
         
         await this.orderRepository.create(order)
-        // OK -> Find the ticket the user is trying to order in the database
-        // Ok -> Make sure that this ticket is not already reserved
-        // OK -> Calculate an expiration date for this order
-        // OK -> Build the order and save it to the database
-        // Publish an event saying that an order was created
     }
 }
 

@@ -1,9 +1,10 @@
 import { Express } from "express"
-import TicketEndpoint from "../endpoints/ticket";
-import TicketEndpointFactory from "../factories/ticket-endpoint-factory"
 import { authorizator, handleException } from "@ticket-app/common"
+import OrderEndpoint from "../endpoints/order";
+import { OrderEndpointFactory } from "../factories/order-endpoint-factory";
 
-const ticketEndpointFactory: TicketEndpoint = new TicketEndpointFactory().make({});
+const orderEndpoint: OrderEndpoint = new OrderEndpointFactory().make({})
+
 export default (app: Express) => {
 
     // ROUTES TO IMPLEMENT: 
@@ -12,9 +13,7 @@ export default (app: Express) => {
     // POST /api/orders -> create one order
     // DELETE /api/orders -> this route not delete register, only update order status for cancelled
 
-    app.get("/api/orders", authorizator, () => {
-        
-    })
+    app.post("/api/orders", authorizator, orderEndpoint.create)
     // app.get("/api/tickets", authorizator, ticketEndpointFactory.findAll)
     // app.get("/api/tickets/:id", authorizator, ticketEndpointFactory.findById)
     // app.post("/api/tickets", authorizator, ticketEndpointFactory.create)
