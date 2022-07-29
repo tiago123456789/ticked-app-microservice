@@ -38,7 +38,7 @@ class OrderEndpoint {
 
     async cancel(request: Request, response: Response, next: NextFunction) {
         try {
-            await this.orderService.cancel(
+                await this.orderService.cancel(
                 // @ts-ignore
                 request.params.id, request.userId
             );
