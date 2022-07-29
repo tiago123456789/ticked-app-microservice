@@ -4,8 +4,8 @@ import OrderDto from "../dtos/order";
 export default class OrderRepository {
 
 
-    findAll() {
-        return Order.find({ })
+    findAllByUserId(userId: string) {
+        return Order.find({ userId })
     }
 
     findByTicketIdAndStatus(ticketId: string, status: string) {

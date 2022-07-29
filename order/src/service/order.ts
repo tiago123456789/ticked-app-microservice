@@ -17,6 +17,28 @@ class OrderService {
         this.orderRepository = orderRepository;
     }
 
+    async cancel(id: string, userId: string) {
+        await this.findById(id, userId)
+        return this.orderRepository.update(id, { status: OrderStatus.CANCELLED })
+    }
+
+    findAllByUserId(userId: string) {
+        return this.orderRepository.findAllByUserId(userId)
+    }
+
+    async findById(id: string, userId: string) {
+        const register = await this.orderRepository.findById(id)
+
+        if (!register) {
+            throw new NotFoundException("Order not found")
+        }
+
+        if (register.userId != userId) {
+            throw new NotFoundException("Order not found")
+        }
+
+        return register
+    }
 
     async create(order: OrderDto) {
         if (!mongoose.isValidObjectId(order.ticket)) {
@@ -28,6 +50,7 @@ class OrderService {
         }
 
         const orderToTicket = await this.orderRepository.findByTicketIdAndStatus(
+            // @ts-ignore
             order.ticket, OrderStatus.CREATED
         )
 
