@@ -7,6 +7,8 @@ import routesApp from "../routes/index"
 import cors from "cors"
 const app = express();
 
+require("../handlers/index")
+
 app.use(express.json())
 app.use(cors())
 

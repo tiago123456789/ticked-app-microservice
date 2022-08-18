@@ -14,7 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ticket-app/common": "^1.5.11",
+    "@ticket-app/common": "git+ssh://github.com/tiago123456789/ticket-app-common.git",
     "@types/jsonwebtoken": "^8.5.8",
     "bcryptjs": "^2.4.3",
     "cookie": "^0.5.0",

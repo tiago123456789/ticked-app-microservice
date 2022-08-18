@@ -35,6 +35,14 @@ export default class TicketService {
         return ticketCreated;
     }
 
+    lock(ticketId: string) {
+        return this.ticketRepository.lock(ticketId)
+    }  
+
+    unlock(ticketId: string) {
+        return this.ticketRepository.unlock(ticketId)
+    }
+
     async update(id: string, ticket: TicketDto) {
         await this.findById(id);
 

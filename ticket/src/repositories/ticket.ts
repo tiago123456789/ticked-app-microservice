@@ -1,5 +1,6 @@
 import Ticket from "../models/ticket"
 import TicketDto from "../dtos/ticket";
+import ticket from "../models/ticket";
 
 export default class TicketRepository {
 
@@ -19,5 +20,13 @@ export default class TicketRepository {
 
     update(id: string, user: TicketDto) {
         return Ticket.updateOne({ _id: id }, { $set: user })
+    }
+
+    lock(ticketId: string) {
+        return Ticket.updateOne({ _id: ticketId }, { $set: { is_locked: true } })
+    }
+
+    unlock(ticketId: string) {
+        return Ticket.updateOne({ _id: ticketId }, { $set: { is_locked: false } })
     }
 }

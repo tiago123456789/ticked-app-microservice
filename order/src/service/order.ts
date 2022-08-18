@@ -1,8 +1,9 @@
 import TicketRepository from "../repositories/ticket";
 import OrderRepository from "../repositories/order"
 import OrderDto from "../dtos/order"
-import { BusinessLogicException, NotFoundException, OrderStatus } from "@ticket-app/common/build";
+import { BusinessLogicException, NotFoundException, OrderStatus, Publisher } from "@ticket-app/common/build";
 import mongoose from "mongoose";
+import { OrderCreated, OrderCancelled } from "@ticket-app/common";
 
 class OrderService {
 
@@ -11,15 +12,22 @@ class OrderService {
 
     constructor(
         ticketRepository = new TicketRepository(),
-        orderRepository = new OrderRepository()
+        orderRepository = new OrderRepository(),
+        private orderCreatedPublisher: Publisher<OrderCreated>,
+        private orderCancelledPublisher: Publisher<OrderCancelled>,
     ) {
         this.ticketRepository = ticketRepository;
         this.orderRepository = orderRepository;
     }
 
     async cancel(id: string, userId: string) {
-        await this.findById(id, userId)
-        return this.orderRepository.update(id, { status: OrderStatus.CANCELLED })
+        const order = await this.findById(id, userId)
+        await this.orderRepository.update(id, { status: OrderStatus.CANCELLED })
+        await this.orderCreatedPublisher.publish({
+            // @ts-ignore
+            id: orderCreated._id,
+            ticketId: order.ticket._id
+        })
     }
 
     findAllByUserId(userId: string) {
@@ -62,8 +70,13 @@ class OrderService {
         currentDate.setMinutes(currentDate.getMinutes() + 15)
         order.expiresAt = currentDate;
         order.status = OrderStatus.CREATED;
-        
-        await this.orderRepository.create(order)
+
+        const orderCreated = await this.orderRepository.create(order);
+        await this.orderCreatedPublisher.publish({
+            // @ts-ignore
+            id: orderCreated._id,
+            ticketId: order.ticket
+        })
     }
 }
 

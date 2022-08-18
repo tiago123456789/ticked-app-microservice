@@ -14,7 +14,7 @@ class NatsClient {
             this.client = Nat.connect(
                 // @ts-ignore
                 process.env.NATS_CLUSTER_ID, 
-                'random', 
+                'random111111', 
                 { url: process.env.NATS_URL }
             )
             this.client.on("connect", async () => {
