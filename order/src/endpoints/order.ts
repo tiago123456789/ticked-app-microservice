@@ -5,12 +5,9 @@ import * as yup from "yup"
 
 class OrderEndpoint {
 
-    private orderService: OrderService;
-
     constructor(
-        orderService = new OrderService()
+        private orderService: OrderService
     ) {
-        this.orderService = orderService;
         this.create = this.create.bind(this)
         this.findById = this.findById.bind(this)
         this.findAllByUserId = this.findAllByUserId.bind(this)

@@ -75,6 +75,7 @@ class OrderService {
         await this.orderCreatedPublisher.publish({
             // @ts-ignore
             id: orderCreated._id,
+            // @ts-ignore
             ticketId: order.ticket
         })
     }
