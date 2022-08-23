@@ -8,17 +8,18 @@ export default class TicketRepository {
     }
 
     async findById(id: string | undefined) {
-        const registers: any = await Ticket.find({ id: id })
+        const registers: any = await Ticket.find({ ticketId: id })
         return registers[0] || null;
     }
 
     create(ticket: TicketDto) {
         return Ticket.insertMany([
-            ticket
+            // @ts-ignore
+            {...ticket, ticketId: ticket.id }
         ])
     }
 
     update(id: string | undefined, user: TicketDto) {
-        return Ticket.updateOne({ _id: id }, { $set: user })
+        return Ticket.updateOne({ ticketId: id }, { $set: user })
     }
 }

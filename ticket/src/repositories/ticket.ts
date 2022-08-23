@@ -1,11 +1,12 @@
 import Ticket from "../models/ticket"
 import TicketDto from "../dtos/ticket";
 import ticket from "../models/ticket";
+import mongoose, { ObjectId } from "mongoose";
 
 export default class TicketRepository {
 
     findAll() {
-        return Ticket.find({ })
+        return Ticket.find({})
     }
 
     findById(id: string) {
@@ -23,10 +24,12 @@ export default class TicketRepository {
     }
 
     lock(ticketId: string) {
-        return Ticket.updateOne({ _id: ticketId }, { $set: { is_locked: true } })
+        // @ts-ignore
+        return Ticket.findOneAndUpdate(ticketId, { is_lock: true });
     }
 
     unlock(ticketId: string) {
-        return Ticket.updateOne({ _id: ticketId }, { $set: { is_locked: false } })
+         // @ts-ignore
+        return Ticket.findOneAndUpdate(ticketId, { is_lock: false });
     }
 }

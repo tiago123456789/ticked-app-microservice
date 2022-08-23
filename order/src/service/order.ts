@@ -23,9 +23,9 @@ class OrderService {
     async cancel(id: string, userId: string) {
         const order = await this.findById(id, userId)
         await this.orderRepository.update(id, { status: OrderStatus.CANCELLED })
-        await this.orderCreatedPublisher.publish({
+        await this.orderCancelledPublisher.publish({
             // @ts-ignore
-            id: orderCreated._id,
+            id: id,
             ticketId: order.ticket._id
         })
     }
@@ -49,10 +49,14 @@ class OrderService {
     }
 
     async create(order: OrderDto) {
+        console.log(order);
+        console.log("@@@@@@@@@@@@@")
+        console.log("@@@@@@@@@@@@@")
         if (!mongoose.isValidObjectId(order.ticket)) {
             throw new NotFoundException("Ticket not found")
         }
         const ticket = await this.ticketRepository.findById(order.ticket)
+        // console.log(ticket)
         if (!ticket) {
             throw new NotFoundException("Ticket not found")
         }

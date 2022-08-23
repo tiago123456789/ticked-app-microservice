@@ -9,7 +9,6 @@ const ticketService = new TicketServiceFactory().make({});
 new OrderCreatedListener(
     natsClient.getClient(), "order_created_queue")
     .setHandleCallback(async (data: OrderCreated) => {
-        console.log("LOCK TICKET")
         await ticketService.lock(data.ticketId)
     })
     .listen()
@@ -18,7 +17,6 @@ new OrderCreatedListener(
 new OrderCancelledListener(
     natsClient.getClient(), "order_cancelled_queue")
     .setHandleCallback(async (data: OrderCancelled) => {
-        console.log("UNLOCK TICKET")
         await ticketService.unlock(data.ticketId)
     })
     .listen()

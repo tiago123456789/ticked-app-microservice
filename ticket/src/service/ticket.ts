@@ -1,6 +1,6 @@
 import TicketDto from "../dtos/ticket";
 import TicketRepository from "../repositories/ticket";
-import { NotFoundException, TicketCreated, TicketUpdated } from "@ticket-app/common"
+import { BusinessLogicException, NotFoundException, TicketCreated, TicketUpdated } from "@ticket-app/common"
 
 import { Publisher } from "@ticket-app/common"
 
@@ -44,7 +44,11 @@ export default class TicketService {
     }
 
     async update(id: string, ticket: TicketDto) {
-        await this.findById(id);
+        const register = await await this.findById(id);
+        if (register.is_lock == true) {
+            throw new BusinessLogicException("You can't update register, because already exist order created to this ticket")
+        }
+        
 
         const ticketUpdated = await this.ticketRepository.update(id, ticket);
         await this.ticketUpdatedPublisher.publish({
