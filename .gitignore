@@ -14,3 +14,7 @@ order/.env
 order/node_modules
 
 
+expiration/.env
+expiration/node_modules
+
+
