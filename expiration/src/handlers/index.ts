@@ -1,15 +1,23 @@
 import natsClient from "../configs/nats-client"
-import { TicketUpdatedListener, TicketCreatedListener, TicketUpdated } from "@ticket-app/common"
-import { TicketServiceFactory } from "../factories/ticket-service-factory"
+import { OrderCreatedListener, OrderCreated } from "@ticket-app/common"
+import { getQueue } from "../configs/BullQueue"
+import QueueName from "../utils/QueueName";
 
-const ticketService = new TicketServiceFactory().make({})
+const orderExpirationQueue = getQueue(QueueName.ORDER_EXPIRATION)
 
-new TicketCreatedListener(natsClient.getClient(), "ticket_created_queue")
-    .setHandleCallback(ticketService.create)
-    .listen()
+new OrderCreatedListener(natsClient.getClient(), "order_expiration_queue") 
+    .setHandleCallback((data: OrderCreated) => {
+        const expiration = new Date(data.expiration)
+        const currentDate = new Date();
+        const delay = expiration.getTime() - currentDate.getTime()
+        console.log(data)
 
-new TicketUpdatedListener(natsClient.getClient(), "ticket_updated_queue")
-    .setHandleCallback((data: TicketUpdated) => {
-        ticketService.update(data.id, data)
+        orderExpirationQueue.add(data, { delay: 0 })
     })
-    .listen()
+    .listen();
+
+orderExpirationQueue.process((job: any, done: CallableFunction) => {
+    console.log(job.data)
+    console.log("@@@@@@@@@@@@@")
+    done();
+})

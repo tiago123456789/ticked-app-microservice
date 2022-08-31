@@ -49,9 +49,6 @@ class OrderService {
     }
 
     async create(order: OrderDto) {
-        console.log(order);
-        console.log("@@@@@@@@@@@@@")
-        console.log("@@@@@@@@@@@@@")
         if (!mongoose.isValidObjectId(order.ticket)) {
             throw new NotFoundException("Ticket not found")
         }
@@ -66,9 +63,9 @@ class OrderService {
             order.ticket, OrderStatus.CREATED
         )
 
-        if (orderToTicket) {
-            throw new BusinessLogicException("You can't make order because ticket already reserved")
-        }
+        // if (orderToTicket) {
+        //     throw new BusinessLogicException("You can't make order because ticket already reserved")
+        // }
 
         const currentDate = new Date();
         currentDate.setMinutes(currentDate.getMinutes() + 15)
@@ -79,6 +76,7 @@ class OrderService {
         await this.orderCreatedPublisher.publish({
             // @ts-ignore
             id: orderCreated._id,
+            expiration: currentDate,
             // @ts-ignore
             ticketId: order.ticket
         })
