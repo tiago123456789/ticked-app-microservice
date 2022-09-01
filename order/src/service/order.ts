@@ -75,7 +75,7 @@ class OrderService {
         const orderCreated = await this.orderRepository.create(order);
         await this.orderCreatedPublisher.publish({
             // @ts-ignore
-            id: orderCreated._id,
+            id: orderCreated[0]._id,
             expiration: currentDate,
             // @ts-ignore
             ticketId: order.ticket

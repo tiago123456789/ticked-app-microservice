@@ -2,22 +2,19 @@ import natsClient from "../configs/nats-client"
 import { OrderCreatedListener, OrderCreated } from "@ticket-app/common"
 import { getQueue } from "../configs/BullQueue"
 import QueueName from "../utils/QueueName";
+import { OrderServiceFactory } from "../factories/order-service-factory";
 
 const orderExpirationQueue = getQueue(QueueName.ORDER_EXPIRATION)
 
-new OrderCreatedListener(natsClient.getClient(), "order_expiration_queue") 
-    .setHandleCallback((data: OrderCreated) => {
-        const expiration = new Date(data.expiration)
-        const currentDate = new Date();
-        const delay = expiration.getTime() - currentDate.getTime()
-        console.log(data)
+const orderService = new OrderServiceFactory().make({})
 
-        orderExpirationQueue.add(data, { delay: 0 })
+new OrderCreatedListener(natsClient.getClient(), "order_expiration_queue") 
+    .setHandleCallback(async (data: OrderCreated) => {
+       await orderService.settingOrderExpiration(data)
     })
     .listen();
 
-orderExpirationQueue.process((job: any, done: CallableFunction) => {
-    console.log(job.data)
-    console.log("@@@@@@@@@@@@@")
+orderExpirationQueue.process(async (job: any, done: CallableFunction) => {
+    await orderService.notifyOrderExpiration(job.data)
     done();
 })
