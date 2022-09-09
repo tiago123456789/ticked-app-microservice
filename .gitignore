@@ -17,4 +17,7 @@ order/node_modules
 expiration/.env
 expiration/node_modules
 
+payment/.env
+payment/node_modules
+
 

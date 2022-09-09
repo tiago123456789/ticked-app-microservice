@@ -11,7 +11,8 @@ class OrderService {
         const expiration = new Date(data.expiration)
         const currentDate = new Date();
         const delay = expiration.getTime() - currentDate.getTime()
-        this.queue.add(data, { delay })
+        console.log(delay)
+        this.queue.add(data, { delay: delay })
     }
 
     notifyOrderExpiration(data: OrderExpirated) {
