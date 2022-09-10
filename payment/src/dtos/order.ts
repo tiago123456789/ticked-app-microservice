@@ -2,15 +2,15 @@
 export default class Order {
 
     public userId?: string;
+    public price: Number;
+    public orderId: string
     public status: string;
-    public expiresAt?: Date;
-    public ticket?: string;
 
-    constructor(userId: string, status: string, expiresAt: Date, ticket: string) {
+    constructor(userId: string, status: string, orderId: string, price: Number) {
         this.userId = userId;
         this.status = status;
-        this.expiresAt = expiresAt;
-        this.ticket = ticket;
+        this.orderId = orderId;
+        this.price = price;
     }
 
 }

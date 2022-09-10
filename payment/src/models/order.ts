@@ -10,15 +10,15 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: Object.values(OrderStatus),
-        default: OrderStatus.CREATED,
     },
-    expiresAt: {
-        type: mongoose.Schema.Types.Date,
+    price: {
+        type: Number,
+        required: true,
     },
-    ticket: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Ticket",
-    },
+    orderId: {
+        type: String,
+        required: true
+    }
 })
 
 export default mongoose.model("orders", orderSchema)

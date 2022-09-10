@@ -3,7 +3,6 @@ import OrderDto from "../dtos/order";
 
 export default class OrderRepository {
 
-
     findAllByUserId(userId: string) {
         return Order.find({ userId })
     }
