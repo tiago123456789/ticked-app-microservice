@@ -21,6 +21,10 @@ export default class OrderRepository {
         ])
     }
 
+    updateByOrderId(orderId: string | undefined, order: OrderDto) {
+        return Order.updateOne({ orderId: orderId }, { $set: order })
+    }
+
     update(id: string | undefined, order: OrderDto) {
         return Order.updateOne({ _id: id }, { $set: order })
     }

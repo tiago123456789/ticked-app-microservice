@@ -3,10 +3,10 @@ export default class Order {
 
     public userId?: string;
     public price: Number;
-    public orderId: string
+    public orderId?: string
     public status: string;
 
-    constructor(userId: string, status: string, orderId: string, price: Number) {
+    constructor(userId: string, status: string, orderId: string | undefined, price: Number) {
         this.userId = userId;
         this.status = status;
         this.orderId = orderId;

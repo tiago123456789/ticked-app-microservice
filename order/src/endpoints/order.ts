@@ -26,7 +26,8 @@ class OrderEndpoint {
             });
 
             await schema.validate(data);
-            await this.orderService.create(data);
+            // @ts-ignore
+            await this.orderService.create(data, request.userId);
             return response.sendStatus(201);
         } catch(error) {
             return next(error);

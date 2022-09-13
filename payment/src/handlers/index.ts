@@ -1,22 +1,24 @@
 import natsClient from "../configs/nats-client"
-import { OrderCancelledListener, OrderCreatedListener, OrderExpiratedListener, TicketUpdatedListener, TicketCreatedListener, TicketUpdated, OrderExpirated, OrderCreated, OrderCancelled } from "@ticket-app/common"
-import OrderService from "../service/order"
+import { OrderCancelledListener, OrderCreatedListener, OrderCreated, OrderCancelled } from "@ticket-app/common"
 import { OrderServiceFactory } from "../factories/order-service-factory"
+import Order from "../dtos/order"
 
 const orderService = new OrderServiceFactory().make({})
 
 new OrderCreatedListener(natsClient.getClient())
-    .setHandleCallback((data: OrderCreated) => {
-        console.log(">>>>>>>>>>>>>>")
-        console.log(">>>>>>>>>>>>>>")
-        console.log(data)
+    .setHandleCallback(async (data: OrderCreated) => {
+        const orderDto = new Order(
+            data.userId, data.status, data.id, data.price
+        )
+        console.log(await orderService.create(orderDto))
     })
     .listen();
 
 new OrderCancelledListener(natsClient.getClient())
-    .setHandleCallback((data: OrderCancelled) => {
-        console.log(">>>>>>>>>>>>>>")
-        console.log(">>>>>>>>>>>>>>")
-        console.log(data)
+    .setHandleCallback(async (data: OrderCancelled) => {
+        const orderDto = new Order(
+            data.userId, data.status, data.id, data.price
+        )
+        await orderService.updateByOrderId(data.id, orderDto)
     })
     .listen()
