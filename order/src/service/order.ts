@@ -40,7 +40,7 @@ class OrderService {
             // @ts-ignore
             ticketId: order.ticket,
             // @ts-ignore
-            status: order.status,
+            status: OrderStatus.CANCELLED,
             // @ts-ignore
             userId: order.userId,
             price: ticket.price

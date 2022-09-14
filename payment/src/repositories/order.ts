@@ -11,6 +11,10 @@ export default class OrderRepository {
         return Order.findOne({ ticket: ticketId, status })
     }
 
+    findByOrderId(orderId: string | undefined) {
+        return Order.findOne({ orderId: orderId })
+    }
+
     findById(id: string | undefined) {
         return Order.findById(id, { __v: 0 })
     }
@@ -19,10 +23,6 @@ export default class OrderRepository {
         return Order.insertMany([
             order
         ])
-    }
-
-    updateByOrderId(orderId: string | undefined, order: OrderDto) {
-        return Order.updateOne({ orderId: orderId }, { $set: order })
     }
 
     update(id: string | undefined, order: OrderDto) {

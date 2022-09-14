@@ -7,6 +7,10 @@ const orderEndpoint: OrderEndpoint = new OrderEndpointFactory().make({})
 
 export default (app: Express) => {
 
+    app.post("/api/charges", authorizator, (request, response) => {
+        return response.json({ message: "Create charges" })
+    });
+    
     // app.post("/api/orders", authorizator, orderEndpoint.create)
     // app.get("/api/orders/:id", authorizator, orderEndpoint.findById)
     // app.get("/api/orders", authorizator, orderEndpoint.findAllByUserId)

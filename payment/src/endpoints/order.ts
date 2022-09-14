@@ -10,6 +10,16 @@ class OrderEndpoint {
     ) {
     }
 
+    charge(request, response, next) {
+        try {
+
+            this.orderService.charge()
+            return response.sendStatus(201)
+        } catch(error) {
+            return next(error);
+        }
+    }
+
 }
 
 export default OrderEndpoint;
