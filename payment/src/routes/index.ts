@@ -1,21 +1,14 @@
 import { Express } from "express"
 import { authorizator, handleException } from "@ticket-app/common"
-import OrderEndpoint from "../endpoints/order";
-import { OrderEndpointFactory } from "../factories/order-endpoint-factory";
+import { ChargeEndpointFactory } from "../factories/charge-endpoint-factory";
+import ChargeEndpoint from "../endpoints/charge";
 
-const orderEndpoint: OrderEndpoint = new OrderEndpointFactory().make({})
+const chargeEndpoint: ChargeEndpoint = new ChargeEndpointFactory().make({})
 
 export default (app: Express) => {
 
-    app.post("/api/charges", authorizator, (request, response) => {
-        return response.json({ message: "Create charges" })
-    });
+    app.post("/api/charges", authorizator, chargeEndpoint.charge);
     
-    // app.post("/api/orders", authorizator, orderEndpoint.create)
-    // app.get("/api/orders/:id", authorizator, orderEndpoint.findById)
-    // app.get("/api/orders", authorizator, orderEndpoint.findAllByUserId)
-    // app.delete("/api/orders/:id", authorizator, orderEndpoint.cancel)
-
     app.use(handleException)
    
 }

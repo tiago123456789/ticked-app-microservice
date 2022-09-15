@@ -1,19 +1,26 @@
 import OrderRepository from "../repositories/order"
 import OrderDto from "../dtos/order"
+import Charge from "../dtos/charge";
+import ChargeRepository from "../repositories/charge"
 
 class OrderService {
 
     private orderRepository: OrderRepository;
+    private chargeRepository: ChargeRepository;
 
     constructor(
         orderRepository = new OrderRepository(),
+        chargeRepository = new ChargeRepository()
     ) {
         this.orderRepository = orderRepository;
+        this.chargeRepository = chargeRepository
     }
 
-    charge(orderId) {
-        const order = this.orderRepository.findByOrderId(orderId);
-        
+    async charge(data: Charge) {
+        const order = await this.orderRepository.findByOrderId(data.orderId);
+        await this.chargeRepository.create(order, data.token)
+        console.log(order)
+
     }
 
     async create(order: OrderDto) {
