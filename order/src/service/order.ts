@@ -21,10 +21,18 @@ class OrderService {
     }
 
     async cancelUsingId(id: string, ticketId: string) {
+        const order = await this.orderRepository.findById(id);
+        if (order.status == OrderStatus.COMPLETE) {
+            return;
+        }
+        
         await this.orderRepository.update(id, { status: OrderStatus.CANCELLED })
         await this.orderCancelledPublisher.publish({
             // @ts-ignore
             id: id,
+            status: "",
+            userId: "",
+            price: 0,
             ticketId: ticketId
         })
     }
@@ -79,9 +87,9 @@ class OrderService {
             order.ticket, OrderStatus.CREATED
         )
 
-        // if (orderToTicket) {
-        //     throw new BusinessLogicException("You can't make order because ticket already reserved")
-        // }
+        if (orderToTicket) {
+            throw new BusinessLogicException("You can't make order because ticket already reserved")
+        }
 
         const currentDate = new Date();
         currentDate.setMinutes(currentDate.getMinutes() + 15)
@@ -99,6 +107,10 @@ class OrderService {
             userId: userId,
             price: ticket.price
         })
+    }
+
+    async approve(id: string) {
+        return this.orderRepository.update(id, { status: OrderStatus.COMPLETE })
     }
 }
 

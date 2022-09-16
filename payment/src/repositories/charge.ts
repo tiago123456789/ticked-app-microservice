@@ -21,7 +21,7 @@ class ChargeRepository {
             source: token,
         })
 
-        await Charge.create({
+        return Charge.create({
             transactionId: charge.id,
             orderId: order.orderId
         })

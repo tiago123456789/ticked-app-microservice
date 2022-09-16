@@ -10,7 +10,7 @@ new OrderCreatedListener(natsClient.getClient())
         const orderDto = new Order(
             data.userId, data.status, data.id, data.price
         )
-        console.log(await orderService.create(orderDto))
+        await orderService.create(orderDto)
     })
     .listen();
 

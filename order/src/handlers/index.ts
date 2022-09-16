@@ -1,12 +1,17 @@
 import natsClient from "../configs/nats-client"
-import { OrderExpiratedListener, TicketUpdatedListener, TicketCreatedListener, TicketUpdated, OrderExpirated } from "@ticket-app/common"
+import { PaymentApprovedListener, OrderExpiratedListener, TicketUpdatedListener, TicketCreatedListener, TicketUpdated, OrderExpirated, PaymentApproved } from "@ticket-app/common"
 import { TicketServiceFactory } from "../factories/ticket-service-factory"
-import OrderService from "../service/order"
 import { OrderServiceFactory } from "../factories/order-service-factory"
-import order from "../models/order"
+import OrderService from "../service/order"
 
 const ticketService = new TicketServiceFactory().make({})
-const orderService = new OrderServiceFactory().make({})
+const orderService: OrderService = new OrderServiceFactory().make({})
+
+new PaymentApprovedListener(natsClient.getClient())
+    .setHandleCallback(async (data: PaymentApproved) => {
+        await orderService.approve(data.orderId)
+    })
+    .listen()
 
 new TicketCreatedListener(natsClient.getClient(), "ticket_created_queue")
     .setHandleCallback(ticketService.create)
@@ -20,7 +25,6 @@ new TicketUpdatedListener(natsClient.getClient(), "ticket_updated_queue")
 
 new OrderExpiratedListener(natsClient.getClient(), "order_expired_queue")
 .setHandleCallback(async (data: OrderExpirated) => {
-    console.log("passed on here")
     // @ts-ignore
     await orderService.cancelUsingId(data.id, data.ticketId)
 })
