@@ -15,8 +15,6 @@ export default class TicketEndpoint {
 
     async findAll(request: Request, response: Response, next: NextFunction) {
         try {
-            // @ts-ignore
-            // console.log(request.userId)
             const tickets = await this.ticketService.findAll();
             response.json(tickets);
         } catch(error) {
