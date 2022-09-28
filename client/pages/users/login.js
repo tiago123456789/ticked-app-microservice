@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react"
-import { setCookies } from 'cookies-next';
-
+import React, { useState } from "react"
 import Router from "next/router"
-
 import Alert from "../../components/Alert"
-import * as authService from "../../services/auth"
+import { useAuth } from "../../hooks/useAuth";
 
 const ALERT_ERROR = "alert-danger"
 const ALERT_SUCCESS = "alert-success"
 
 const Login = () => {
+    const { authenticate } = useAuth();
     const [alert, setAlert] = useState({
         message: null,
         type: ALERT_ERROR
@@ -29,11 +27,7 @@ const Login = () => {
     const save = async (event) => {
         event.preventDefault();
         try {
-            const response = await authService.authenticate(credentials)
-            localStorage.setItem("accessToken", response.accessToken)
-            setCookies("accessToken", response.accessToken, {
-                path: "/", expires: new Date(Date.now() + 9000000000000)
-            })
+            await authenticate(credentials)
             setAlert({
                 message: "Sign in success",
                 type: ALERT_SUCCESS
@@ -41,10 +35,11 @@ const Login = () => {
             Router.push("/")
         } catch(error) {
             setAlert({
-                message: error.response.data.error,
+                message: error.message,
                 type: ALERT_ERROR
             })
         }
+
     }
 
     return (
@@ -66,7 +61,10 @@ const Login = () => {
                 id="inputPassword" className="form-control" placeholder="Password" required />
                 <button className="btn btn-primary btn-block mt-2"
                 onClick={save}
-                type="submit">Sign in</button>
+                type="submit">Sign in</button>&nbsp;
+                 <button className="btn btn-primary btn-block mt-2"
+                onClick={() => Router.push("/users/register")}
+                type="submit">Register</button>
             </form>
 
         </div>

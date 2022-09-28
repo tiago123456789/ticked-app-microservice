@@ -1,7 +1,9 @@
 import React from "react"
 import * as authService from "../services/auth"
+import Link from "next/link"
+import routes from "../constants/routes"
 
-export default ({ isAuthenticated }) => {
+export default () => {
 
     const logout = () => {
         authService.logout();
@@ -16,14 +18,26 @@ export default ({ isAuthenticated }) => {
                     <li className="nav-item active">
                         <a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>
                     </li>
-                    { isAuthenticated && 
-                        <li className="nav-item right">
-                            <a className="nav-link" onClick={() => logout()}>Logout</a>
-                        </li>
-                    }
-                    
+                    <li className="nav-item active">
+                        <Link href={routes.TICKETS}>
+                            <a className="nav-link" href="#">Tickets</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item active">
+                        <Link href={routes.SELL_TICKET}>
+                            <a className="nav-link" href="#">Sell tickets</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item active">
+                        <Link href={routes.MY_ORDERS}>
+                            <a className="nav-link" href="#">My orders</a>
+                        </Link>
+                    </li>
+                    <li className="nav-item right">
+                        <a className="nav-link" onClick={() => logout()}>Logout</a>
+                    </li>
                 </ul>
             </div>
-        </nav>
+        </nav >
     )
 }

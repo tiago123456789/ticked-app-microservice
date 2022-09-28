@@ -1,8 +1,11 @@
+import React from "react"
 import * as authService from "../services/auth"
+import Header from "../components/Header"
 
 const Index = ({ user }) => {
 
     return <>
+        <Header/>   
         <section className="container mt-4">
             <p className="text-center">Welcome the application {user.email}</p>
         </section>
@@ -16,10 +19,10 @@ export async function getServerSideProps(context) {
         const user = await authService.getAuthenticatedUser(accessToken)
         return {
             props: {
-                user
+                user,
             }
         } 
     })
 }
 
-export default Index;
+export default Index;   

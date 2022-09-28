@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import Alert from "../../components/Alert"
 import * as authService from "../../services/auth"
+import Router from "next/router"
 
 const ALERT_ERROR = "alert-danger"
 const ALERT_SUCCESS = "alert-success"
@@ -66,7 +67,10 @@ const Register = () => {
                 id="inputPassword" className="form-control" placeholder="Password" required />
                 <button className="btn btn-primary btn-block mt-2"
                 onClick={save}
-                type="submit">Sign up</button>
+                type="submit">Sign up</button>&nbsp;
+                <button className="btn btn-primary btn-block mt-2"
+                onClick={() => Router.push("/users/login")}
+                type="submit">Back login</button>
             </form>
 
         </div>
