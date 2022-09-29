@@ -2,9 +2,8 @@ import React, { useState } from "react"
 import Router from "next/router"
 import Alert from "../../components/Alert"
 import { useAuth } from "../../hooks/useAuth";
+import { ALERT_ERROR, ALERT_SUCCESS } from "../../constants/alert";
 
-const ALERT_ERROR = "alert-danger"
-const ALERT_SUCCESS = "alert-success"
 
 const Login = () => {
     const { authenticate } = useAuth();

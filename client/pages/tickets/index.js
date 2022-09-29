@@ -1,7 +1,9 @@
 import { useState } from "react"
+import Link from "next/link"
 import * as authService from "../../services/auth"
 import * as ticketService from "../../services/ticket"
 import Header from "../../components/Header";
+import routes from "../../constants/routes"
 
 const Ticket = ({ tickets: ticketsReturned }) => {
     const [tickets] = useState(ticketsReturned)
@@ -14,7 +16,9 @@ const Ticket = ({ tickets: ticketsReturned }) => {
                     <td>{item.price}</td>
                     <td>
                         {item.is_lock == false &&
-                            <button className="btn btn-primary">Purchase</button>
+                            <Link href={routes.TICKET_DETAILS(item._id)} >
+                                <button className="btn btn-primary">Purchase</button>
+                            </Link>
                         }
 
                     </td>
