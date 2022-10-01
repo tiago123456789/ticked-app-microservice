@@ -87,9 +87,9 @@ class OrderService {
             order.ticket, OrderStatus.CREATED
         )
 
-        if (orderToTicket) {
-            throw new BusinessLogicException("You can't make order because ticket already reserved")
-        }
+        // if (orderToTicket) {
+        //     throw new BusinessLogicException("You can't make order because ticket already reserved")
+        // }
 
         const currentDate = new Date();
         currentDate.setMinutes(currentDate.getMinutes() + 15)
@@ -107,6 +107,8 @@ class OrderService {
             userId: userId,
             price: ticket.price
         })
+
+        return orderCreated[0];
     }
 
     async approve(id: string) {

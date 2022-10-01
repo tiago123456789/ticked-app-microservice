@@ -15,7 +15,7 @@ const Ticket = ({ tickets: ticketsReturned }) => {
                     <td>{item.title}</td>
                     <td>{item.price}</td>
                     <td>
-                        {item.is_lock == false &&
+                        { !item.is_lock &&
                             <Link href={routes.TICKET_DETAILS(item._id)} >
                                 <button className="btn btn-primary">Purchase</button>
                             </Link>

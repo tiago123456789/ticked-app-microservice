@@ -4,6 +4,8 @@ auth/.env
 auth/.env.testing
 client/node_modules/
 client/.next/
+client/.env.local
+
 common/node_modules/
 common/build/
 ticket/.env

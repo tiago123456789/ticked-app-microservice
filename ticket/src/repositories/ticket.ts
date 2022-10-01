@@ -25,11 +25,11 @@ export default class TicketRepository {
 
     lock(ticketId: string) {
         // @ts-ignore
-        return Ticket.findOneAndUpdate(ticketId, { is_lock: true });
+        return Ticket.updateOne({ _id: ticketId }, { is_lock: true });
     }
 
     unlock(ticketId: string) {
          // @ts-ignore
-        return Ticket.findOneAndUpdate(ticketId, { is_lock: false });
+        return Ticket.updateOne({ _id: ticketId }, { is_lock: false });
     }
 }
