@@ -7,6 +7,10 @@ export default class TicketRepository {
         return Ticket.find({ })
     }
 
+    async findByIds(ids: string[]) {
+        return Ticket.find({ ticketId: { $in: ids } })
+    }
+
     async findById(id: string | undefined) {
         const registers: any = await Ticket.find({ ticketId: id })
         return registers[0] || null;

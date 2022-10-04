@@ -55,8 +55,25 @@ class OrderService {
         })
     }
 
-    findAllByUserId(userId: string) {
-        return this.orderRepository.findAllByUserId(userId)
+    async findAllByUserId(userId: string) {
+        const registers = await this.orderRepository.findAllByUserId(userId)
+        const mapOrderByTicket: { [key: string]: any } = {}
+        const ticketIds = registers.map(item => {
+            mapOrderByTicket[item.ticket] = item;
+            return item.ticket 
+        })
+        const tickets = await this.ticketRepository.findByIds(ticketIds)
+        const results = tickets.map(ticket => {
+
+            const order = mapOrderByTicket[ticket.ticketId];
+            return {
+                title: ticket.title,
+                price: ticket.price,
+                _id: mapOrderByTicket[ticket.ticketId]._id
+            }
+        })
+
+        return results;
     }
 
     async findById(id: string, userId: string) {

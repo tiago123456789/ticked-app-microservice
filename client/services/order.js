@@ -19,6 +19,16 @@ export const cancel = async (id, accessToken) => {
 
 }
 
+export const getAllByUserAuthenticated = async (accessToken) => {
+    const response = await api.get(`http://localhost:5001/api/orders`, {
+        headers: {
+            "Authorization": `Bearer ${accessToken}`
+        }
+    });
+
+    return response.data
+
+}
 
 export const charge = async (data, accessToken) => {
     const response = await api.post(`http://localhost:5010/api/charges`, data, {

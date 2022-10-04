@@ -3,7 +3,7 @@ import Router from "next/router"
 import Alert from "../../components/Alert"
 import { useAuth } from "../../hooks/useAuth";
 import { ALERT_ERROR, ALERT_SUCCESS } from "../../constants/alert";
-
+import routes from "../../constants/routes"
 
 const Login = () => {
     const { authenticate } = useAuth();
@@ -62,7 +62,7 @@ const Login = () => {
                 onClick={save}
                 type="submit">Sign in</button>&nbsp;
                  <button className="btn btn-primary btn-block mt-2"
-                onClick={() => Router.push("/users/register")}
+                onClick={() => Router.push(routes.REGISTER)}
                 type="submit">Register</button>
             </form>
 
