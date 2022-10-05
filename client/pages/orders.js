@@ -1,9 +1,7 @@
 import { useState } from "react"
-import Link from "next/link"
 import * as authService from "../services/auth"
 import * as orderService from "../services/order"
 import Header from "../components/Header";
-import routes from "../constants/routes"
 
 const Orders = ({ orders: orderReturned }) => {
     const [orders] = useState(orderReturned)
